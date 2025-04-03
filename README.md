@@ -1,15 +1,17 @@
-# camera\_avfoundation
+This is essentially a fork of https://github.com/flutter/packages/tree/main/packages/camera/camera_avfoundation
 
-The iOS implementation of [`camera`][1].
+However, due to how flutter manages their packages, it's just copied into this directory.
+We modify `availableCamerasWithCompletion` in `CameraPlugin.m` to set `discoveryDevices` to
+```
+    NSMutableArray *discoveryDevices =
+                [@[ AVCaptureDeviceTypeBuiltInWideAngleCamera, 
+            AVCaptureDeviceTypeBuiltInTelephotoCamera,
+            AVCaptureDeviceTypeBuiltInDualCamera,
+            AVCaptureDeviceTypeBuiltInDualWideCamera,
+            AVCaptureDeviceTypeBuiltInTripleCamera  ]
+            mutableCopy];
+```
 
-## Usage
+We do this because we want access to the logical cameras that iOS provides.
 
-This package is [endorsed][2], which means you can simply use `camera`
-normally. This package will be automatically included in your app when you do,
-so you do not need to add it to your `pubspec.yaml`.
-
-However, if you `import` this package to use any of its APIs directly, you
-should add it to your `pubspec.yaml` as usual.
-
-[1]: https://pub.dev/packages/camera
-[2]: https://flutter.dev/docs/development/packages-and-plugins/developing-packages#endorsed-federated-plugin
+Also see https://github.com/flutter/flutter/issues/134151
